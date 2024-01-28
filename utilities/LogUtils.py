@@ -12,7 +12,8 @@ class Logger:
         logger = logging.getLogger(logger_name)
         logger.setLevel(loglevel)
         # logfile_name = self.base.generate_timestamp()
-        fileHandler = logging.FileHandler(f".//logs//automation.log", mode='a')
+        filepath = os.getcwd()
+        fileHandler = logging.FileHandler(f"{filepath}//logs//automation.log", mode='a')
         formatter = logging.Formatter("%(asctime)s :%(levelname)s : %(name)s :%(message)s",
                                       datefmt='%d-%m-%Y %H:%M:%S')
         fileHandler.setFormatter(formatter)
