@@ -7,19 +7,21 @@ from utilities.LogUtils import Logger
 
 logger = Logger()
 log = logger.logger_setup(logging.DEBUG)
+url = None
+driver = None
 
 
-@pytest.fixture()
-def setup_and_teardown(request):
+@pytest.fixture(scope="class")
+def setup_and_teardown(request, browser):
     log.info("Setting up the webdriver.")
-    browser = read_config("BASIC INFO", "BROWSER")
+    # browser = read_config("BASIC INFO", "BROWSER")
     browser = browser.lower()
     global driver
-    if browser.__eq__("chrome"):
+    if browser == "chrome":
         driver = webdriver.Chrome()
-    elif browser.__eq__("edge"):
+    elif browser == "edge":
         driver = webdriver.Edge()
-    elif browser.__eq__("firefox"):
+    elif browser == "firefox":
         driver = webdriver.Firefox()
     else:
         raise ValueError("Please provide browser from chrome/edge/firefox.")
@@ -32,6 +34,20 @@ def setup_and_teardown(request):
     yield
     log.info("Tearing down webdriver")
     driver.close()
+
+
+def pytest_addoption(parser):
+    parser.addoption("--browser")
+    parser.addoption("--env")
+
+
+@pytest.fixture(scope="class", autouse=True)
+def browser(request):
+    return request.config.getoption("--browser")
+
+
+def environment(request):
+    return request.config.getoption("--env")
 
 
 @pytest.hookimpl(hookwrapper=True)

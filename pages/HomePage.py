@@ -12,7 +12,7 @@ class HomePage(BasePage):
         super().__init__(driver)
 
     logger = Logger()
-    log = logger.logger_setup(logging.DEBUG)
+    log = logger.logger_setup()
 
     searchBox = read_homePageLocators("SEARCHBOX_INPUT")
     closeBtn = read_homePageLocators("CLOSE_BTN")
