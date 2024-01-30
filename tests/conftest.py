@@ -3,6 +3,7 @@ import os.path
 import pytest
 from selenium import webdriver
 from utilities.ConfigurationReader import read_config
+from selenium.webdriver.chrome.options import Options
 from utilities.LogUtils import Logger
 
 logger = Logger()
@@ -15,6 +16,9 @@ driver = None
 def setup_and_teardown(request, browser):
     log.info("Setting up the webdriver.")
     # browser = read_config("BASIC INFO", "BROWSER")
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
     browser = browser.lower()
     global driver
     if browser == "chrome":
