@@ -17,7 +17,7 @@ class TestSearch(BaseTest, ReadCSV):
     # @pytest.mark.skip
     def test_checkTitle(self):
         title = self.driver.title
-        assert title == "Google1"
+        assert title == "Google"
 
     # @pytest.mark.skip
     def test_search(self):
