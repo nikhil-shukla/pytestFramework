@@ -1025,3 +1025,6 @@
 28-01-2024 21:40:51 :INFO : class_setup :Title is Pytest - Google Search
 28-01-2024 21:40:51 :INFO : <module> :Tearing down webdriver
 28-01-2024 21:41:32 :INFO : <module> :Setting up the webdriver.
+31-01-2024 22:16:55 :INFO : <module> :Setting up the webdriver.
+31-01-2024 22:17:13 :INFO : <module> :Setting up the webdriver.
+31-01-2024 22:17:18 :INFO : <module> :Tearing down webdriver
