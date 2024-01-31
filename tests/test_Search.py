@@ -18,9 +18,8 @@ class TestSearch(BaseTest, ReadCSV):
     # @pytest.mark.skip
     def test_checkTitle(self):
         title = self.driver.title
-        assert title == "Google1"
         allure.attach(self.driver.get_screenshot_as_png(), name="test_checkTitle", attachment_type=AttachmentType.PNG)
-
+        assert title == "Google1"
 
     # @pytest.mark.skip
     def test_search(self):
