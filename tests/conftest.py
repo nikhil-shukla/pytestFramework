@@ -15,7 +15,7 @@ driver = None
 @pytest.fixture(scope="class")
 def setup_and_teardown(request, browser):
     log.info("Setting up the webdriver.")
-    # browser = read_config("BASIC INFO", "BROWSER")
+    browser = read_config("BASIC INFO", "BROWSER")
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')

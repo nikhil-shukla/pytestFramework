@@ -17,6 +17,7 @@ class TestSearch(BaseTest, ReadCSV):
         self.log = self.logger.logger_setup(logging.DEBUG)
 
     # @pytest.mark.skip
+    @pytest.mark.qa
     def test_checkTitle(self):
         title = self.driver.title
         allure.attach(self.driver.get_screenshot_as_png(), name="test_checkTitle", attachment_type=AttachmentType.PNG)
