@@ -21,7 +21,6 @@ class TestSearch(BaseTest, ReadCSV):
     @allure.severity(allure.severity_level.BLOCKER)
     def test_checkTitle(self):
         title = self.driver.title
-        allure.attach(self.driver.get_screenshot_as_png(), name="test_checkTitle", attachment_type=AttachmentType.PNG)
         assert title == "Google1"
 
     # @pytest.mark.skip
@@ -29,6 +28,8 @@ class TestSearch(BaseTest, ReadCSV):
     def test_search(self):
         search_text = ReadCSV.read_csv_by_id('1', 'search_text')
         self.homepage.search(search_text)
+        allure.attach(self.driver.get_screenshot_as_png(), name="test_search", attachment_type=AttachmentType.PNG)
+
 
     @pytest.mark.parametrize("search_string", ["Pytest", "Selenium"])
     @allure.severity(allure.severity_level.NORMAL)
