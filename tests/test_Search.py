@@ -1,5 +1,6 @@
 import logging
 import pytest
+import allure
 from pages.HomePage import HomePage
 from tests.BaseTest import BaseTest
 from utilities.CSVReader import ReadCSV
@@ -18,6 +19,8 @@ class TestSearch(BaseTest, ReadCSV):
     def test_checkTitle(self):
         title = self.driver.title
         assert title == "Google1"
+        allure.attach(self.driver.get_screenshot_as_png(), name="test_checkTitle", attachment_type=AttachmentType.PNG)
+
 
     # @pytest.mark.skip
     def test_search(self):
