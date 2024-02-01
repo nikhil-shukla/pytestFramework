@@ -7,7 +7,12 @@ from tests.BaseTest import BaseTest
 from utilities.CSVReader import ReadCSV
 from utilities.LogUtils import Logger
 
-
+@allure.title("Test Webapp")
+@allure.description("This test attempts to search something and check for the title.")
+@allure.tag("Web", "Search")
+@allure.label("owner", "Nikhil")
+@allure.link("https://www.google.com/", name="Website")
+@allure.testcase("TC-121")
 class TestSearch(BaseTest, ReadCSV):
 
     @pytest.fixture(autouse=True)
