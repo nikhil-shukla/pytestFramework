@@ -28,8 +28,13 @@ def setup_and_teardown(request, browser, environment):
         driver = webdriver.Edge()
     elif browser == "firefox":
         driver = webdriver.Firefox()
+    elif browser == "chrome-headless":
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+        driver = webdriver.Chrome(options=chrome_options)
     else:
-        raise ValueError("Please provide browser from chrome/edge/firefox.")
+        raise ValueError("Please provide browser from chrome/edge/firefox/chrome-headless.")
 
     driver.maximize_window()
     global url
