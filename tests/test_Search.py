@@ -26,7 +26,7 @@ class TestSearch(BaseTest, ReadCSV):
     @allure.severity(allure.severity_level.BLOCKER)
     def test_checkTitle(self):
         title = self.driver.title
-        assert title == "Google"
+        assert title == "Google1"
 
     # @pytest.mark.skip
     @allure.severity(allure.severity_level.MINOR)
