@@ -22,7 +22,7 @@ class TestSearch(BaseTest, ReadCSV):
         self.log = self.logger.logger_setup(logging.DEBUG)
 
     # @pytest.mark.skip
-    @pytest.mark.qa
+    @pytest.mark.smoke
     @allure.severity(allure.severity_level.BLOCKER)
     def test_checkTitle(self):
         title = self.driver.title
