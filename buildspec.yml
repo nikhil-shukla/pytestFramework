@@ -8,7 +8,7 @@ phases:
       - pip3 install -r requirements.txt
   build:
     commands:
-      - python3 -m pytest --junitxml=pytest_reports/pytest_report.xml
+      - python3 -m pytest --browser=chrome-headless --env=qa --junitxml=pytest_reports/pytest_report.xml
 
 reports:
   pytest_reports:
