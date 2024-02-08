@@ -21,7 +21,7 @@ pipeline {
                           python3 -m venv venv
                           . venv/bin/activate
                           pip install -r requirements.txt
-                          pytest --browser=$BROWSER --alluredir=./allure-results -n auto'''
+                          pytest --browser=$BROWSER --env=$ENV --alluredir=allure-results -n auto'''
                 }
             }
         }
@@ -30,8 +30,13 @@ pipeline {
         stage('Generate Allure Report') {
             steps {
                 script {
-                    sh 'allure generate -c allure-results -o allure-report'
-                    sh 'nohup allure serve allure-report &'
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: 'allure-results']]
+                    ])
                 }
             }
         }
@@ -42,6 +47,6 @@ pipeline {
     post {
         always {
             archiveArtifacts 'allure-report/'
-        }
+            }
     }
 }
