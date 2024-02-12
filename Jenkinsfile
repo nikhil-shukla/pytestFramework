@@ -22,8 +22,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    sh '''echo python3 --version
-                          echo ${BROWSER}
+                    sh '''python3 --version
                           python3 -m venv venv
                           . venv/bin/activate
                           pip install -r requirements.txt
