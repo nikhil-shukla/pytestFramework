@@ -26,7 +26,7 @@ pipeline {
                           python3 -m venv venv
                           . venv/bin/activate
                           pip install -r requirements.txt
-                          pytest --browser=$BROWSER --env=$ENV --alluredir=allure-results -n auto'''
+                          pytest --browser=${BROWSER} --env=${ENV} --alluredir=allure-results -n auto'''
                 }
             }
         }
