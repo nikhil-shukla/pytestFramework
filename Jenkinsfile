@@ -5,6 +5,11 @@ pipeline {
         jdk 'jdk17'
         allure 'allure'
     }
+
+    environment{
+        BROWSER = "chrome-headless"
+        ENV = "qa"
+    }
     
    
     stages {
