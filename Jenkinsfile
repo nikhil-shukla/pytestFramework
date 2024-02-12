@@ -7,8 +7,8 @@ pipeline {
     }
 
     environment{
-        BROWSER = "chrome-headless"
-        ENV = "qa"
+        BROWSER = 'chrome-headless'
+        ENV = 'qa'
     }
     
    
