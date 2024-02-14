@@ -3,9 +3,10 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.11
+      python: 3.12
     commands:
       - pip3 install -r requirements.txt
+      - sudo apt install -y chromium-browser
   build:
     commands:
       - python3 -m pytest --browser=chrome-headless --env=qa --junitxml=pytest_reports/pytest_report.xml
