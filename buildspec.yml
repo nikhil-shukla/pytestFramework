@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
-      - sudo apt install allure
+      - sudo apt install -y allure
       - python3 --version
       - python3 -m venv venv
       - . venv/bin/activate
