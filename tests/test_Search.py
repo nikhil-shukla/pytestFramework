@@ -1,6 +1,7 @@
 import logging
 import pytest
 import allure
+import time
 from allure_commons.types import AttachmentType
 from pages.HomePage import HomePage
 from tests.BaseTest import BaseTest
