@@ -13,25 +13,15 @@ phases:
   
   build:
     commands:
-      - python3 -m pytest --browser=chrome-headless --env=qa --alluredir=allure-results -n auto --junitxml=pytest_reports/pytest_report.xml --html=reports/report.html 
+      - python3 -m pytest --browser=chrome-headless --env=qa --html=reports/report.html -n auto 
       
   post_build:
     commands:
       - allure generate allure-results -o allure-report --clean
 
 reports:
-  pytest_reports:
-    files:
-      - pytest_report.xml
-    base-directory: pytest_reports/
-    file-format: JUNITXML
   html_reports:
     files:
       - report.xml
     base-directory: reports/
-    file-format: HTML
-  allure_reports:
-    files: 
-      - '**/*'
-    base-directory: allure-report/
     file-format: HTML
