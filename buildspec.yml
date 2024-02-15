@@ -13,11 +13,7 @@ phases:
   
   build:
     commands:
-      - python3 -m pytest --browser=chrome-headless --env=qa --html=reports/report.html -n auto 
-      
-  post_build:
-    commands:
-      - allure generate allure-results -o allure-report --clean
+      - python3 -m pytest --browser=chrome-headless --env=qa --html=reports/report.html -n auto
 
 reports:
   html_reports:
