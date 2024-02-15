@@ -18,6 +18,6 @@ phases:
 reports:
   html_reports:
     files:
-      - report.xml
+      - report.html
     base-directory: reports/
     file-format: HTML
