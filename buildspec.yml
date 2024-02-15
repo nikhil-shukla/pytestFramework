@@ -21,6 +21,7 @@ phases:
 
 reports:
   pytest_reports:
-    files: **/*
+    files: 
+      - **/*
     base-directory: allure-report/
     file-format: HTML
