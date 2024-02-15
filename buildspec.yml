@@ -21,6 +21,11 @@ phases:
 
 reports:
   pytest_reports:
+    files:
+      - pytest_report.xml
+    base-directory: pytest_reports/
+    file-format: JUNITXML
+  allure_reports:
     files: 
       - '**/*'
     base-directory: allure-report/
