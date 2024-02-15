@@ -25,6 +25,7 @@ class TestSearch(BaseTest, ReadCSV):
     @pytest.mark.smoke
     @allure.severity(allure.severity_level.BLOCKER)
     def test_checkTitle(self):
+        time.sleep(5)
         title = self.driver.title
         assert title == "Google"
 
@@ -32,12 +33,14 @@ class TestSearch(BaseTest, ReadCSV):
     @allure.severity(allure.severity_level.MINOR)
     def test_search(self):
         search_text = ReadCSV.read_csv_by_id('1', 'search_text')
+        time.sleep(5)
         self.homepage.search(search_text)
         allure.attach(self.driver.get_screenshot_as_png(), name="test_search", attachment_type=AttachmentType.PNG)
 
     @pytest.mark.parametrize("search_string", ["Pytest", "Selenium"])
     @allure.severity(allure.severity_level.NORMAL)
     def test_parameterizeSearch(self, search_string):
+        time.sleep(5)
         self.homepage.search(search_string)
         title = self.driver.title
         self.log.info(f"Title is {title}")
