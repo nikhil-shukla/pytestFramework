@@ -5,17 +5,22 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
-      - npm install --save-dev allure-commandline
-      - export PATH=$PATH:/path/to/allure-2.27.0/bin
       - python3 --version
       - python3 -m venv venv
       - . venv/bin/activate
       - pip3 install -r requirements.txt
+      - wget https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.27.0/allure-commandline-2.27.0.zip
+      - unzip allure-commandline-2.27.0.zip
+      - export PATH=$PATH:/path/to/allure-2.27.0/bin
   
   build:
     commands:
-      - python3 -m pytest --browser=chrome-headless --env=qa --junitxml=pytest_reports/pytest_report.xml -n auto
-      - allure serve allure-results
+      - python3 -m pytest --browser=chrome-headless --env=qa --junitxml=pytest_reports/pytest_report.xml --alluredir=allure-results -n auto
+  
+  post_build:
+    commands:
+      - allure generate allure-results -o allure-report --clean
+      - aws s3 sync allure-report/ s3://myown-testreports/allure-report/
 
 reports:
   pytest_reports:
@@ -27,4 +32,4 @@ reports:
 artifacts:
   files:
     - pytest_reports/pytest_report.xml
-    - allure-report/
+    - allure-report/**/*
