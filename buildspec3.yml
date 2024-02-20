@@ -5,7 +5,8 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
-      - sudo dpkg -i allure_2.24.0-1_all.deb
+      - npm install --save-dev allure-commandline
+      - export PATH=$PATH:/path/to/allure-2.24.0/bin
       - python3 --version
       - python3 -m venv venv
       - . venv/bin/activate
