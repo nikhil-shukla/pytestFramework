@@ -9,9 +9,12 @@ phases:
       - python3 -m venv venv
       - . venv/bin/activate
       - pip3 install -r requirements.txt
+      - printenv
+      - pwd
       - wget https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.27.0/allure-commandline-2.27.0.zip
       - unzip allure-commandline-2.27.0.zip
       - export PATH=$PATH:/allure-2.27.0/bin
+      - printenv
   
   build:
     commands:
