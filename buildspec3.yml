@@ -20,7 +20,8 @@ phases:
   
   post_build:
     commands:
-      - allure generate allure-results -o allure-report --clean
+      - ALLURE_PATH="$(pwd)/allure-2.27.0/bin/allure"
+      - ALLURE_PATH generate allure-results -o allure-report --clean
       - aws s3 sync allure-report/ s3://myown-testreports/allure-report/
 
 reports:
