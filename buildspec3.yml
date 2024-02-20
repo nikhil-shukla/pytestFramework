@@ -29,4 +29,4 @@ reports:
 artifacts:
   files:
     - pytest_reports/pytest_report.xml
-    - allure-report
+    - allure-report/
