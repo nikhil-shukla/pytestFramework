@@ -20,3 +20,7 @@ reports:
       - pytest_report.xml
     base-directory: pytest_reports/
     file-format: JUNITXML
+
+artifacts:
+  files:
+    - pytest_reports/pytest_report.xml
