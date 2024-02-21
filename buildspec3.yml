@@ -16,7 +16,7 @@ phases:
   
   build:
     commands:
-      - python3 -m pytest --browser=chrome-headless --env=qa --junitxml=pytest_reports/pytest_report.xml --alluredir=allure-results --html=html_report.html -n auto
+      - python3 -m pytest --browser=chrome-headless --env=qa --junitxml=pytest_reports/pytest_report.xml --alluredir=allure-results --html=pytest_html/html_report.html -n auto
   
   post_build:
     commands:
@@ -33,4 +33,4 @@ artifacts:
   files:
     - pytest_reports/pytest_report.xml
     - allure-report/**/*
-    - html_report.html
+    - pytest_html/html_report.html
