@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime
 
 
-@pytest.mark.usefixtures("setup_and_teardown", "log_on_failure")
+@pytest.mark.usefixtures("setup_and_teardown")
 class BaseTest:
 
     @staticmethod
