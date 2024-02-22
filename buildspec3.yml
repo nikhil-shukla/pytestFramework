@@ -10,7 +10,7 @@ phases:
       - . venv/bin/activate
       - pip3 install -r requirements.txt
       - wget --no-verbose https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${ALLURE_VERSION}/allure-commandline-${ALLURE_VERSION}.zip
-      - unzip --no-verbose allure-commandline-${ALLURE_VERSION}.zip
+      - unzip -qq allure-commandline-${ALLURE_VERSION}.zip
       - export PATH=$PATH:$PWD/allure-${ALLURE_VERSION}/bin
       # - set -ex \
       #   && wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb \
