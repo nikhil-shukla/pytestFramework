@@ -8,6 +8,7 @@ phases:
       - apt-get update -y > /dev/null
       - wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > /dev/null
       - dpkg -i /tmp/chrome.deb || apt-get -fy install > /dev/null
+      - apt-get install -y -f > /dev/null
       - rm /tmp/chrome.deb > /dev/null
       - sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' "/opt/google/chrome/google-chrome" > /dev/null
       - google-chrome --version
