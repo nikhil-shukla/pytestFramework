@@ -12,16 +12,16 @@ phases:
       - wget --no-verbose https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${ALLURE_VERSION}/allure-commandline-${ALLURE_VERSION}.zip
       - unzip -qq allure-commandline-${ALLURE_VERSION}.zip
       - export PATH=$PATH:$PWD/allure-${ALLURE_VERSION}/bin
-      - wget --no-verbose https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - sudo dpkg -i google-chrome-stable_current_*.deb
-      - sudo apt-get install -f
+      # - wget --no-verbose https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      # - sudo dpkg -i google-chrome-stable_current_*.deb
+      # - sudo apt-get install -f
 
-      # - set -ex \
-      #   && wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb \
-      #   && (dpkg -i /tmp/chrome.deb || apt-get -fy install) \
-      #   && rm /tmp/chrome.deb \
-      #   && sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' "/opt/google/chrome/google-chrome" \
-      #   && google-chrome --version
+      - set -ex \
+        && wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+        && (dpkg -i /tmp/chrome.deb || apt-get -fy install) \
+        && rm /tmp/chrome.deb \
+        && sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' "/opt/google/chrome/google-chrome" \
+        && google-chrome --version
       
   
   build:
