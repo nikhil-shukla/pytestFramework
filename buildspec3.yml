@@ -15,6 +15,7 @@ phases:
       # - wget --no-verbose https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       # - sudo dpkg -i google-chrome-stable_current_*.deb
       # - sudo apt-get install -f
+      - apt-get update -y
       - wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       - dpkg -i /tmp/chrome.deb || apt-get -fy install
       - rm /tmp/chrome.deb
