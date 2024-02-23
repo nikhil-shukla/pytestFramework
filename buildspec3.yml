@@ -5,6 +5,12 @@ phases:
     runtime-versions:
       python: 3.12
     commands:
+      - apt-get update -y > /dev/null
+      - wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > /dev/null
+      - dpkg -i /tmp/chrome.deb || apt-get -fy install > /dev/null
+      - rm /tmp/chrome.deb > /dev/null
+      - sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' "/opt/google/chrome/google-chrome" > /dev/null
+      - google-chrome --version
       - python3 --version
       - python3 -m venv venv
       - . venv/bin/activate
@@ -12,16 +18,7 @@ phases:
       - wget --no-verbose https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${ALLURE_VERSION}/allure-commandline-${ALLURE_VERSION}.zip
       - unzip -qq allure-commandline-${ALLURE_VERSION}.zip
       - export PATH=$PATH:$PWD/allure-${ALLURE_VERSION}/bin
-      # - wget --no-verbose https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      # - sudo dpkg -i google-chrome-stable_current_*.deb
-      # - sudo apt-get install -f
-      - apt-get update -y
-      - wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - dpkg -i /tmp/chrome.deb || apt-get -fy install
-      - rm /tmp/chrome.deb
-      - sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' "/opt/google/chrome/google-chrome"
-      
-  
+     
   build:
     commands:
       - python3 -m pytest --browser=${BROWSER} --env=${ENVIRONMENT} --junitxml=pytest_reports/pytest_report.xml --alluredir=allure-results --html=reports/html_report.html -n auto
