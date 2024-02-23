@@ -8,7 +8,7 @@ phases:
       - python3 --version
       - python3 -m venv venv
       - . venv/bin/activate
-      - pip3 install -r -q requirements.txt
+      - pip3 install -r requirements.txt --quiet
       - wget --no-verbose https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${ALLURE_VERSION}/allure-commandline-${ALLURE_VERSION}.zip
       - unzip -qq allure-commandline-${ALLURE_VERSION}.zip
       - export PATH=$PATH:$PWD/allure-${ALLURE_VERSION}/bin
