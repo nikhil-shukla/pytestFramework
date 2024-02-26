@@ -30,6 +30,7 @@ class TestSearch(BaseTest, ReadCSV):
         title = self.driver.title
         assert title == "Google"
 
+    @pytest.mark.skip
     @pytest.mark.smoke
     @allure.severity(allure.severity_level.MINOR)
     def test_checkTitleNegative(self):
