@@ -30,7 +30,7 @@ class TestSearch(BaseTest, ReadCSV):
         title = self.driver.title
         assert title == "Google"
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     @pytest.mark.smoke
     @allure.severity(allure.severity_level.MINOR)
     def test_checkTitleNegative(self):
@@ -49,7 +49,7 @@ class TestSearch(BaseTest, ReadCSV):
     @pytest.mark.skip
     @pytest.mark.parametrize("search_string", ["Pytest", "Selenium"])
     @allure.severity(allure.severity_level.NORMAL)
-    def test_parameterizeSearch(self, search_string):
+    def _parameterizeSearch(self, search_string):
         time.sleep(5)
         self.homepage.search(search_string)
         title = self.driver.title
