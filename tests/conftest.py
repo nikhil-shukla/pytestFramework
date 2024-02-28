@@ -70,20 +70,20 @@ def environment(request):
     return request.config.getoption("--env")
 
 
-# @pytest.fixture()
-# def log_on_failure(request):
-#     yield
-#     item = request.node
-#     if item.rep_call.failed:
-#         allure.attach(driver.get_screenshot_as_png(), name="failed_step", attachment_type=AttachmentType.PNG)
+@pytest.fixture()
+def log_on_failure(request):
+    yield
+    item = request.node
+    if item.rep_call.failed:
+        allure.attach(driver.get_screenshot_as_png(), name="failed_step", attachment_type=AttachmentType.PNG)
 
 
-# @pytest.hookimpl(hookwrapper=True, tryfirst=True)
-# def pytest_runtest_makereport(item, call):
-#     outcome = yield
-#     rep = outcome.get_result()
-#     setattr(item, "rep_" + rep.when, rep)
-#     return rep
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, "rep_" + rep.when, rep)
+    return rep
     
 
 def _capture_screenshot(name):
@@ -94,23 +94,23 @@ def pytest_html_report_title(report):
     report.title = "Python Selenium-Pytest Report"
 
 
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item):
-    pytest_html = item.config.pluginmanager.getplugin('html')
-    outcome = yield
-    report = outcome.get_result()
-    extra = getattr(report, 'extra', [])
+# @pytest.hookimpl(hookwrapper=True)
+# def pytest_runtest_makereport(item):
+#     pytest_html = item.config.pluginmanager.getplugin('html')
+#     outcome = yield
+#     report = outcome.get_result()
+#     extra = getattr(report, 'extra', [])
 
-    if report.when == 'call' or report.when == "setup":
-        extra.append(pytest_html.extras.url(url))
-        xfail = hasattr(report, 'wasxfail')
-        if (report.skipped and xfail) or (report.failed and not xfail):
-            report_directory = os.path.dirname(item.config.option.htmlpath)
-            file_name = report.nodeid.replace("::", "_") + ".png"
-            destinationFile = os.path.join(report_directory, file_name)
-            _capture_screenshot(destinationFile)
-            if file_name:
-                html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
-                       'onclick="window.open(this.src)" align="right"/></div>' % file_name
-                extra.append(pytest_html.extras.html(html))
-        report.extras = extra
+#     if report.when == 'call' or report.when == "setup":
+#         extra.append(pytest_html.extras.url(url))
+#         xfail = hasattr(report, 'wasxfail')
+#         if (report.skipped and xfail) or (report.failed and not xfail):
+#             report_directory = os.path.dirname(item.config.option.htmlpath)
+#             file_name = report.nodeid.replace("::", "_") + ".png"
+#             destinationFile = os.path.join(report_directory, file_name)
+#             _capture_screenshot(destinationFile)
+#             if file_name:
+#                 html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
+#                        'onclick="window.open(this.src)" align="right"/></div>' % file_name
+#                 extra.append(pytest_html.extras.html(html))
+#         report.extras = extra
