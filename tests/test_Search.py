@@ -38,7 +38,6 @@ class TestSearch(BaseTest, ReadCSV):
         title = self.driver.title
         assert title == "Google1"
 
-    # @pytest.mark.skip
     @allure.severity(allure.severity_level.MINOR)
     def test_search(self):
         search_text = ReadCSV.read_csv_by_id('1', 'search_text')
