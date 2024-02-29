@@ -25,7 +25,7 @@ pipeline {
                     sh '''python3 --version
                           python3 -m venv venv
                           . venv/bin/activate
-                          pip install -r requirements.txt
+                          pip install -r requirements.txt --quiet
                           pytest --browser=${BROWSER} --env=${ENV} --alluredir=allure-results -n auto'''
                 }
             }
