@@ -29,12 +29,8 @@ pipeline {
                           pytest --browser=${BROWSER} --env=${ENV} --alluredir=allure-results -n auto'''
                 }
             }
-        }
-
-
-        stage('Generate Allure Report') {
-            steps {
-                script {
+            post {
+                always{
                     allure([
                         includeProperties: false,
                         jdk: '',
@@ -44,11 +40,10 @@ pipeline {
                     ])
                 }
             }
-        }
-        
-        
+        }        
     }
 
+    
     post {
         always {
             archiveArtifacts 'allure-report/'
