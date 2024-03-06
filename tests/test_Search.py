@@ -26,7 +26,7 @@ class TestSearch(BaseTest, ReadCSV):
     @pytest.mark.smoke
     @allure.severity(allure.severity_level.BLOCKER)
     def test_checkTitle(self):
-        time.sleep(2)
+        time.sleep(3)
         title = self.driver.title
         assert title == "Google"
 
