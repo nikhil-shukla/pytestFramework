@@ -1,32 +1,43 @@
-# Use a base image with JDK 17 and Python 3
-FROM openjdk:17-jdk-slim
+FROM python:3.12.2-slim
 
-# Install Python 3 and pip
+ARG jenkinsUserId
+ARG ALLURE_VERSION=2.27.0
+ARG CHROME_VERSION="123.0.6312.86-1"
+ARG EDGE_VERSION="123.0.2420.65-1"
+
+RUN adduser --uid ${jenkinsUserId} jenkinsagent
+
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    apt-get clean
+    apt-get install -y \
+    openjdk-17-jdk-headless \
+    wget \
+    gnupg \
+    && apt-get clean
 
-# Install Allure Commandline
-RUN apt-get install -y wget && \
-    wget -O allure-2.24.0.tgz https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.24.0/allure-commandline-2.24.0.tgz && \
-    tar -zxvf allure-2.24.0.tgz -C /opt/ && \
-    ln -s /opt/allure-2.24.0/bin/allure /usr/bin/allure && \
-    rm allure-2.24.0.tgz
+RUN wget -O allure-${ALLURE_VERSION}.tgz https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${ALLURE_VERSION}/allure-commandline-${ALLURE_VERSION}.tgz && \
+    tar -zxvf allure-${ALLURE_VERSION}.tgz -C /opt/ && \
+    ln -s /opt/allure-${ALLURE_VERSION}/bin/allure /usr/bin/allure && \
+    rm allure-${ALLURE_VERSION}.tgz
 
-#Install chrome
-RUN apt-get install -y wget gnupg && \
-    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
-    apt-get update && \
-    apt-get install -y google-chrome-stable && \
-    rm -rf /var/lib/apt/lists/*
+RUN wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb \
+    && (dpkg -i /tmp/chrome.deb || apt-get -fy install) \
+    && rm /tmp/chrome.deb \
+    && sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' "/opt/google/chrome/google-chrome" \
+    && google-chrome --version
 
-# Set environment variables
-ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
-ENV PATH $JAVA_HOME/bin:$PATH
+RUN wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | apt-key add - \
+    && wget -q "https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-dev/microsoft-edge-dev_${EDGE_VERSION}_amd64.deb" -O /tmp/microsoft-edge-dev.deb \
+    && dpkg -i /tmp/microsoft-edge-dev.deb || apt-get -f install -y \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /workspace
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+ENV PATH=/opt/allure-${ALLURE_VERSION}/bin:${PATH}
 
-# Define default command
+COPY requirements.txt requirements.txt
+
+RUN pip3 install -r requirements.txt --quiet
+
 CMD ["bash"]
+
+USER jenkinsagent
