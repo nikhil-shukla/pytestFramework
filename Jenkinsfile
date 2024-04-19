@@ -1,57 +1,64 @@
 pipeline {
+
     agent any
-    
-    tools{
-        jdk 'jdk17'
-        allure 'allure'
+
+    parameters {
+        choice(name: 'TEST_ENV', choices: ['prod', 'qa', 'stage'], description: 'Select the environment.')
+        choice(name: 'BROWSER', choices: ['chrome-headless', 'edge-headless'], description: 'Provide the browser info.')
+        booleanParam(name: 'REPORT', defaultValue: true, description: 'Toggle this value to execute testcases parallely.')
+        booleanParam(name: 'PARALLEL', defaultValue: true, description: 'Toggle this value to execute testcases parallely.')
+        string(name: 'TAG', defaultValue: '', description: 'Provide the tag to run the tests.')
     }
 
-    environment{
-        BROWSER = 'chrome-headless'
-        ENV = 'qa'
-    }
-    
-   
     stages {
-        stage('Checkout') {
+        stage ('Docker Setup') {
             steps {
-                git branch: 'feature', url: 'https://github.com/nikhil-shukla/pytestFramework.git'
+                script {
+                    echo "Building docker image"
+                    docker.build("my-image:latest", "-f Dockerfile --build-arg jenkinsUserId=\$(id -u jenkinsgwagent) .")
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
                 script {
-                    sh '''python3 --version
-                          python3 -m venv venv
-                          . venv/bin/activate
-                          pip install -r requirements.txt
-                          pytest --browser=${BROWSER} --env=${ENV} --alluredir=allure-results -n auto'''
+                    docker.image("my-image:latest").inside {
+                        sh "python3 --version"
+                        def pytestCommand = "pytest"
+                        if (params.BROWSER) {
+                            pytestCommand += " --browser=${params.BROWSER}"
+                        }
+                        if (params.TEST_ENV) {
+                            pytestCommand += " --env=${params.TEST_ENV}"
+                        }
+                        if (params.TAG) {
+                            pytestCommand += " -m=${params.TAG}"
+                        }
+                        if (params.REPORT) {
+                            pytestCommand += " --alluredir target/allure-results --clean-alluredir"
+                        }
+                        if (params.PARALLEL) {
+                            pytestCommand += " -n auto"
+                        }
+                        echo "Running command: ${pytestCommand}"
+                        sh pytestCommand
+                    }
                 }
             }
         }
-
-
-        stage('Generate Allure Report') {
-            steps {
-                script {
-                    allure([
-                        includeProperties: false,
-                        jdk: '',
-                        properties: [],
-                        reportBuildPolicy: 'ALWAYS',
-                        results: [[path: 'allure-results']]
-                    ])
-                }
-            }
-        }
-        
-        
     }
 
     post {
         always {
-            archiveArtifacts 'allure-report/'
-            }
+            echo "Publishing Allure report"
+            archiveArtifacts 'target/allure-results/'
+            allure([
+                includeProperties: false,
+                jdk: '',
+                reportBuildPolicy: 'ALWAYS',
+                results: [[path: 'target/allure-results']]
+            ])
+        }
     }
 }
