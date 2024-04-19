@@ -1,11 +1,8 @@
 FROM python:3.12.2-slim
 
-ARG jenkinsUserId
 ARG ALLURE_VERSION=2.27.0
 ARG CHROME_VERSION="123.0.6312.86-1"
 ARG EDGE_VERSION="123.0.2420.65-1"
-
-RUN adduser --uid ${jenkinsUserId} jenkinsagent
 
 RUN apt-get update && \
     apt-get install -y \
@@ -39,5 +36,3 @@ COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt --quiet
 
 CMD ["bash"]
-
-USER jenkinsagent
