@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     echo "Building docker image"
-                    docker.build("my-image:latest", "-f Dockerfile --build-arg jenkinsUserId=\$(id -u jenkinsgwagent) .")
+                    docker.build("my-image:latest", "-f Dockerfile .")
                 }
             }
         }
