@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     echo "Building docker image"
-                    docker.build("my-image:latest", "-f Dockerfile .")
+                    docker.build("my-image:latest", "-f Dockerfile -v /var/run/docker.sock:/var/run/docker.sock .")
                 }
             }
         }
